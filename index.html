@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>APTIS Dossier — Vocabulary Drill 100 · B2+</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,700;0,9..144,900;1,9..144,600&family=JetBrains+Mono:wght@600;700&family=Sora:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --magenta:#D6007F; --magenta-deep:#7A0B4A; --plum:#2A0E2E; --ink:#1B1230;
+  --paper:#FFF6FA; --surface:#FDE6F1; --surface-2:#FBD6E9; --gold:#F4A300;
+  --good:#0E8F5B; --bad:#D3403A; --line:#F0B8D6; --muted:#8A5478;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0; color:var(--ink); font-family:'Sora',system-ui,sans-serif; line-height:1.55;
+  background:
+    radial-gradient(900px 420px at 100% 0%,rgba(214,0,127,.12),transparent 60%),
+    radial-gradient(760px 380px at 0% 100%,rgba(122,11,74,.08),transparent 55%),
+    var(--paper);
+}
+button{font:inherit}
+.topbar{
+  position:sticky;top:0;z-index:40;background:rgba(42,14,46,.97);backdrop-filter:blur(12px);
+  color:#fff;border-bottom:3px solid var(--magenta);padding:.62rem 1rem;
+}
+.topbar-inner{max-width:980px;margin:auto;display:grid;grid-template-columns:auto 1fr auto;gap:1rem;align-items:center}
+.brand{font-family:'Fraunces',serif;font-weight:800;white-space:nowrap;letter-spacing:.02em}
+.brand i{display:inline-block;width:9px;height:9px;background:var(--magenta);border-radius:50%;margin-right:.42rem;box-shadow:0 0 0 3px rgba(214,0,127,.24)}
+.progress-shell{height:8px;background:rgba(255,255,255,.14);border-radius:99px;overflow:hidden}
+.progress-bar{height:100%;width:0;background:linear-gradient(90deg,var(--magenta),var(--gold));transition:width .25s ease}
+.score-top{font-family:'JetBrains Mono',monospace;font-size:.76rem;color:#F7DDED;white-space:nowrap}
+.wrap{max-width:980px;margin:0 auto;padding:1.1rem 1rem 3rem}
+.compact-head{
+  display:flex;justify-content:space-between;gap:1rem;align-items:flex-end;padding:1.3rem 0 .9rem;
+  border-bottom:1px solid var(--line);
+}
+.kicker{font-family:'JetBrains Mono',monospace;color:var(--magenta);font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;font-weight:700}
+h1{font-family:'Fraunces',serif;font-size:clamp(1.75rem,5vw,2.7rem);line-height:1.02;margin:.18rem 0 .25rem;color:var(--plum)}
+.sub{margin:0;color:var(--muted);font-size:.9rem}
+.counter-box{text-align:right;min-width:118px}
+.counter-box b{display:block;font-family:'Fraunces',serif;font-size:1.65rem;color:var(--plum)}
+.counter-box span{font-family:'JetBrains Mono',monospace;font-size:.68rem;color:var(--muted);text-transform:uppercase}
+.topic-strip{display:flex;gap:.48rem;overflow-x:auto;padding:.9rem 0 .8rem;scrollbar-width:thin}
+.topic-btn{
+  border:1px solid var(--line);background:#fff;color:var(--magenta-deep);border-radius:999px;
+  padding:.48rem .78rem;font-size:.75rem;font-weight:700;white-space:nowrap;cursor:pointer
+}
+.topic-btn.active{background:var(--magenta-deep);color:#fff;border-color:var(--magenta-deep)}
+.card{
+  position:relative;background:#fff;border:1px solid var(--line);box-shadow:0 28px 60px -40px rgba(122,11,74,.52);
+  border-radius:16px;overflow:hidden;min-height:540px;
+}
+.card::after{
+  content:attr(data-stamp);position:absolute;right:0;bottom:0;background:var(--magenta-deep);color:#F9DCEA;
+  font:700 .78rem 'JetBrains Mono',monospace;padding:.55rem .7rem .45rem 1.1rem;
+  clip-path:polygon(22% 0,100% 0,100% 100%,0 100%);
+}
+.card-top{display:flex;justify-content:space-between;gap:1rem;padding:1rem 1.1rem;background:var(--surface);border-bottom:1px solid var(--line)}
+.topic-label{font:700 .72rem 'JetBrains Mono',monospace;letter-spacing:.06em;text-transform:uppercase;color:var(--magenta-deep)}
+.status{font:700 .72rem 'JetBrains Mono',monospace;color:var(--muted)}
+.card-body{padding:clamp(1.15rem,4vw,2.2rem)}
+.qno{font:700 .72rem 'JetBrains Mono',monospace;color:var(--magenta);letter-spacing:.12em;text-transform:uppercase;margin-bottom:.7rem}
+.stem{font-family:'Fraunces',serif;font-size:clamp(1.35rem,3.3vw,2rem);line-height:1.25;color:var(--plum);margin:0 0 1.35rem}
+.blank{color:var(--magenta);font-weight:800}
+.options{display:grid;grid-template-columns:1fr 1fr;gap:.72rem}
+.opt{
+  position:relative;text-align:left;border:1.5px solid var(--surface-2);background:#fff;color:var(--ink);
+  border-radius:12px;padding:.86rem .9rem .86rem 2.7rem;cursor:pointer;font-weight:600;min-height:58px;
+  transition:.16s ease;
+}
+.opt:hover:not(:disabled){border-color:var(--magenta);background:#FFF8FC;transform:translateY(-1px)}
+.opt .letter{
+  position:absolute;left:.8rem;top:50%;transform:translateY(-50%);width:1.45rem;height:1.45rem;border-radius:7px;
+  display:grid;place-items:center;background:var(--surface);color:var(--magenta-deep);font:700 .72rem 'JetBrains Mono',monospace
+}
+.opt.correct{border-color:var(--good);background:#EFFAF5;color:#0A6541}
+.opt.correct .letter{background:var(--good);color:#fff}
+.opt.wrong{border-color:var(--bad);background:#FFF2F1;color:#8D2924}
+.opt.wrong .letter{background:var(--bad);color:#fff}
+.opt:disabled{cursor:default}
+.feedback{
+  display:none;margin-top:1rem;border-left:4px solid var(--gold);background:#FFF9E9;border-radius:0 10px 10px 0;
+  padding:.85rem 1rem;color:#5E4932;font-size:.88rem
+}
+.feedback.show{display:block}
+.feedback strong{color:var(--magenta-deep)}
+.actions{
+  display:flex;align-items:center;justify-content:space-between;gap:.7rem;padding:1rem 1.1rem 1.2rem;border-top:1px solid var(--surface-2);
+  background:#FFFAFD;flex-wrap:wrap
+}
+.action-left,.action-right{display:flex;gap:.55rem;flex-wrap:wrap}
+.btn{
+  border:none;border-radius:999px;padding:.62rem 1rem;font-size:.8rem;font-weight:800;cursor:pointer
+}
+.btn.primary{background:var(--magenta);color:#fff}
+.btn.primary:hover{background:#B90069}
+.btn.ghost{background:#fff;border:1.4px solid var(--line);color:var(--magenta-deep)}
+.btn.dark{background:var(--plum);color:#fff}
+.summary{
+  display:none;margin-top:1rem;background:var(--plum);color:#F8E8F1;border-radius:14px;padding:1.1rem
+}
+.summary.show{display:block}
+.summary-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:.7rem}
+.metric{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:10px;padding:.8rem}
+.metric b{display:block;font:700 1.35rem 'Fraunces',serif;color:#fff}
+.metric span{font-size:.72rem;color:#E9C6DA}
+.footnote{margin:.8rem 0 0;color:#9E678A;font-size:.72rem;text-align:center}
+kbd{font:700 .68rem 'JetBrains Mono',monospace;background:#F4E5EE;border:1px solid #E8C9DB;border-bottom-width:2px;border-radius:5px;padding:.08rem .3rem;color:var(--magenta-deep)}
+@media (max-width:700px){
+  .topbar-inner{grid-template-columns:1fr auto} .progress-shell{grid-column:1/-1;grid-row:2}
+  .compact-head{align-items:flex-start} .counter-box{display:none}
+  .options{grid-template-columns:1fr} .card{min-height:620px}
+  .summary-grid{grid-template-columns:1fr 1fr} .score-top{font-size:.68rem}
+}
+@media print{
+  .topbar,.topic-strip,.actions,.footnote{display:none!important}
+  body{background:#fff} .wrap{max-width:none;padding:0} .card{box-shadow:none;border-color:#bbb;min-height:auto}
+}
+</style>
+</head>
+<body>
+<div class="topbar">
+  <div class="topbar-inner">
+    <div class="brand"><i></i>APTIS · DOSSIER</div>
+    <div class="progress-shell"><div class="progress-bar" id="progressBar"></div></div>
+    <div class="score-top" id="scoreTop">0 correct · 0 answered</div>
+  </div>
+</div>
+
+<main class="wrap">
+  <section class="compact-head">
+    <div>
+      <div class="kicker">Vocabulary drilling · B2+ traps</div>
+      <h1>100-question Vocabulary Drill</h1>
+      <p class="sub">6 chủ đề từ file ôn tập · chọn đáp án và nhận feedback ngay.</p>
+    </div>
+    <div class="counter-box">
+      <b id="bigCounter">01 / 100</b>
+      <span>Question progress</span>
+    </div>
+  </section>
+
+  <div class="topic-strip" id="topicStrip"></div>
+
+  <section class="card" id="card" data-stamp="B2+">
+    <div class="card-top">
+      <div class="topic-label" id="topicLabel"></div>
+      <div class="status" id="statusLabel">Not answered</div>
+    </div>
+    <div class="card-body">
+      <div class="qno" id="qno"></div>
+      <h2 class="stem" id="stem"></h2>
+      <div class="options" id="options"></div>
+      <div class="feedback" id="feedback"></div>
+    </div>
+    <div class="actions">
+      <div class="action-left">
+        <button class="btn ghost" id="prevBtn">← Back</button>
+        <button class="btn ghost" id="skipBtn">Skip</button>
+      </div>
+      <div class="action-right">
+        <button class="btn dark" id="mistakeBtn">Review mistakes</button>
+        <button class="btn primary" id="nextBtn">Next →</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="summary" id="summary">
+    <div class="summary-grid">
+      <div class="metric"><b id="sumCorrect">0</b><span>Correct</span></div>
+      <div class="metric"><b id="sumWrong">0</b><span>Wrong</span></div>
+      <div class="metric"><b id="sumSkipped">0</b><span>Skipped / Unanswered</span></div>
+      <div class="metric"><b id="sumRate">0%</b><span>Accuracy</span></div>
+    </div>
+  </section>
+
+  <p class="footnote">Phím tắt: <kbd>1</kbd>–<kbd>4</kbd> chọn đáp án · <kbd>←</kbd>/<kbd>→</kbd> chuyển câu · tiến độ được lưu trên trình duyệt.</p>
+</main>
+
+<script>
+const QUESTIONS = [{"topic": "Travel · Holidays", "stem": "The old quarter is definitely worth ___, but go early before it gets crowded.", "opts": ["to visit", "visiting", "visit", "visited"], "a": 1, "note": "be worth + V-ing → “đáng để làm gì”. Trap: không dùng “worth to V”."}, {"topic": "Travel · Holidays", "stem": "We spent the first morning ___ around the historic centre before joining a guided tour.", "opts": ["having a look", "taking a sightseeing", "making a look", "doing a view"], "a": 0, "note": "have a look around = đi xem/ngó quanh. “Take a sightseeing” không phải collocation tự nhiên."}, {"topic": "Travel · Holidays", "stem": "Without mobile data, we took one wrong turn after another and eventually got ___.", "opts": ["missing", "lost", "away", "confusedly"], "a": 1, "note": "get lost = bị lạc. “Missing” không dùng theo mẫu này."}, {"topic": "Travel · Holidays", "stem": "The city is packed with ___ monuments dating back several centuries.", "opts": ["historical", "historic", "history", "historically"], "a": 1, "note": "historic monuments = các di tích có ý nghĩa lịch sử. Đây là collocation trong tài liệu."}, {"topic": "Travel · Holidays", "stem": "We chose a small ___ resort because we wanted to stay within walking distance of the beach.", "opts": ["seaside", "seashorely", "coastal-side", "sea"], "a": 0, "note": "seaside resort = khu nghỉ dưỡng ven biển."}, {"topic": "Travel · Holidays", "stem": "After lying in the sun for three hours without protection, he didn't get a suntan — he got ___.", "opts": ["sunburn", "sunburnt cream", "sunburnedness", "a sun"], "a": 0, "note": "get sunburn = bị cháy nắng. Trap: suntan là rám nắng, không phải cháy nắng."}, {"topic": "Travel · Holidays", "stem": "The lifeguards raised a warning flag because the sea was too ___ for inexperienced swimmers.", "opts": ["rough", "hard", "strong", "heavy"], "a": 0, "note": "rough sea = biển động. “Strong sea” không phải collocation phù hợp."}, {"topic": "Travel · Holidays", "stem": "The water was completely ___ that morning, so even the beginners felt confident kayaking.", "opts": ["silent", "calm", "mild", "flatly"], "a": 1, "note": "calm sea = biển lặng."}, {"topic": "Travel · Holidays", "stem": "Passengers for Flight VN218 should proceed to the ___ desk to drop off checked baggage.", "opts": ["check-in", "boarding", "baggage reclaim", "landing"], "a": 0, "note": "check-in desk = quầy làm thủ tục. Baggage reclaim là khu nhận hành lý sau chuyến bay."}, {"topic": "Travel · Holidays", "stem": "You may be asked to show your passport and ___ card again at the gate.", "opts": ["boarding", "check-in", "landing", "baggage"], "a": 0, "note": "boarding card = thẻ lên máy bay."}, {"topic": "Travel · Holidays", "stem": "After landing, we followed the signs to ___ reclaim to collect our suitcases.", "opts": ["luggage", "baggage", "board", "bag"], "a": 1, "note": "baggage reclaim = khu nhận hành lý."}, {"topic": "Travel · Holidays", "stem": "The aircraft was due to ___ at 7:40, but a technical issue kept it on the runway for another hour.", "opts": ["land", "take off", "board", "reclaim"], "a": 1, "note": "take off = cất cánh. Ngữ cảnh: máy bay vẫn ở đường băng nên chưa cất cánh."}, {"topic": "Travel · Holidays", "stem": "Because of dense fog, the flight arrived with a three-hour ___.", "opts": ["late", "delay", "postponed", "waiting"], "a": 1, "note": "with a three-hour delay = bị chậm ba giờ."}, {"topic": "Travel · Holidays", "stem": "If breakfast and dinner are included but lunch is not, the hotel package is ___.", "opts": ["full board", "half board", "room only", "all boarding"], "a": 1, "note": "half board = thường gồm bữa sáng + một bữa chính; full board gồm ba bữa."}, {"topic": "Travel · Holidays", "stem": "For the festival weekend, you'd better book your room well ___.", "opts": ["in advance", "beforehandly", "aheadly", "in front"], "a": 0, "note": "book in advance = đặt trước."}, {"topic": "Travel · Holidays", "stem": "The waiter brought the ___ after dessert, and we left a small tip for the service.", "opts": ["receipt menu", "bill", "boarding card", "starter"], "a": 1, "note": "bill = hóa đơn tại nhà hàng; tip = tiền boa."}, {"topic": "Travel · Holidays", "stem": "Which sequence is the most natural for a three-course meal?", "opts": ["main course → starter → dessert", "starter → dessert → main course", "starter → main course → dessert", "dessert → starter → main course"], "a": 2, "note": "starter → main course → dessert = khai vị → món chính → tráng miệng."}, {"topic": "Sports · Entertainment", "stem": "In archery, the athlete draws the ___ before releasing the arrow.", "opts": ["racquet", "bow", "bat", "rope"], "a": 1, "note": "bow + arrow là bộ từ vựng cơ bản của archery."}, {"topic": "Sports · Entertainment", "stem": "She took up ___ because she enjoys climbing natural rock faces rather than indoor walls.", "opts": ["rock climbing", "sky diving", "archery", "roller skating"], "a": 0, "note": "rock climbing = leo núi đá."}, {"topic": "Sports · Entertainment", "stem": "Jumping from an aircraft with a parachute is commonly called parachuting or ___.", "opts": ["sky diving", "rock diving", "air climbing", "free rolling"], "a": 0, "note": "parachuting / sky diving = nhảy dù."}, {"topic": "Sports · Entertainment", "stem": "The final drop on the roller coaster was so ___ that several riders screamed.", "opts": ["dull", "thrilling", "spacious", "well-maintained"], "a": 1, "note": "thrilling = gay cấn, kích thích mạnh."}, {"topic": "Sports · Entertainment", "stem": "Waiting for the exam results was more ___ than the exam itself.", "opts": ["nerve-racking", "top-class", "smash-hit", "airy"], "a": 0, "note": "nerve-racking = gây căng thẳng/hồi hộp."}, {"topic": "Sports · Entertainment", "stem": "The mountain route is considered ___ in winter because of ice and sudden weather changes.", "opts": ["hazardous", "awesome", "dull", "cosy"], "a": 0, "note": "hazardous = rất nguy hiểm; mạnh hơn “risky” trong nhiều ngữ cảnh."}, {"topic": "Sports · Entertainment", "stem": "I expected the exhibition to be exciting, but the two-hour talk was surprisingly ___.", "opts": ["dull", "hazardous", "thrilling", "unforgettable"], "a": 0, "note": "dull = nhàm chán."}, {"topic": "Sports · Entertainment", "stem": "Moving heavy equipment all day was physically ___.", "opts": ["tiring", "risky", "awesome", "top-class"], "a": 0, "note": "tiring = gây mệt mỏi."}, {"topic": "Sports · Entertainment", "stem": "The concert was absolutely ___; I still remember every detail years later.", "opts": ["unforgettable", "cramped", "hazardous", "dull"], "a": 0, "note": "unforgettable = khó quên."}, {"topic": "Sports · Entertainment", "stem": "He has a rare ___ collection containing issues from more than 40 countries.", "opts": ["stamp", "stamping", "stamped", "stamps"], "a": 0, "note": "stamp collection = bộ sưu tập tem."}, {"topic": "Sports · Entertainment", "stem": "As a hobby, she spends weekends ___ models of historic aircraft.", "opts": ["making", "doing", "building up", "taking"], "a": 0, "note": "making models = làm/lắp mô hình."}, {"topic": "Sports · Entertainment", "stem": "He lost track of time while ___ the net for travel videos.", "opts": ["surfing", "skating", "rolling", "riding"], "a": 0, "note": "surfing the net = lướt mạng."}, {"topic": "Sports · Entertainment", "stem": "The weekend market sells locally made ___ such as woven baskets and carved boxes.", "opts": ["hand crafts", "sound effects", "smash hits", "venues"], "a": 0, "note": "hand crafts = đồ thủ công."}, {"topic": "Sports · Entertainment", "stem": "The event attracted international performers because it was held at a ___ venue.", "opts": ["top class", "half board", "full board", "well-fitted"], "a": 0, "note": "top class venue = địa điểm chất lượng hàng đầu."}, {"topic": "Sports · Entertainment", "stem": "The film's realistic explosions were created with excellent sound ___.", "opts": ["effects", "affects", "tracks only", "venues"], "a": 0, "note": "sound effects = hiệu ứng âm thanh. Trap: effect (noun) ≠ affect (verb)."}, {"topic": "Sports · Entertainment", "stem": "The musical is packed with ___ hit tunes that the audience instantly recognises.", "opts": ["smash", "cramped", "rough", "historic"], "a": 0, "note": "smash hit tunes = những ca khúc hit cực kỳ thành công."}, {"topic": "Sports · Entertainment", "stem": "Which option best completes the sentence? 'The activity was risky, but the view from the top made it an ___ experience.'", "opts": ["unforgettable", "dull", "tiringly", "hazard"], "a": 0, "note": "an unforgettable experience = một trải nghiệm khó quên."}, {"topic": "Housing · Home", "stem": "A house standing on its own and sharing no walls with neighbouring properties is ___.", "opts": ["detached", "semidetached", "terraced", "fitted"], "a": 0, "note": "detached house = nhà riêng biệt, không chung tường."}, {"topic": "Housing · Home", "stem": "A ___ house normally shares one wall with another house.", "opts": ["semidetached", "detached", "penthouse", "cottage"], "a": 0, "note": "semidetached = hai căn ghép đôi, chung một vách."}, {"topic": "Housing · Home", "stem": "Rows of houses joined side by side are typically called ___ houses.", "opts": ["terraced", "detached", "storey", "airy"], "a": 0, "note": "terraced houses = nhà liền kề theo dãy."}, {"topic": "Housing · Home", "stem": "The family bought a small country ___ with a garden and stone walls.", "opts": ["cottage", "penthouse", "storey", "worktop"], "a": 0, "note": "cottage = nhà nhỏ ở nông thôn."}, {"topic": "Housing · Home", "stem": "The most expensive apartment in the building is the top-floor ___.", "opts": ["penthouse", "cottage", "terrace", "cellar"], "a": 0, "note": "penthouse = căn hộ cao cấp ở tầng trên cùng."}, {"topic": "Housing · Home", "stem": "The apartment comes ___ furnished, so tenants only need to bring personal belongings.", "opts": ["fully", "full", "fullness", "complete"], "a": 0, "note": "fully furnished = được trang bị đầy đủ nội thất."}, {"topic": "Housing · Home", "stem": "Although the building is 30 years old, it is extremely ___.", "opts": ["well-maintained", "well-furnishedly", "double-glazing", "built-in"], "a": 0, "note": "well-maintained = được bảo trì tốt."}, {"topic": "Housing · Home", "stem": "With six people in one tiny room, the flat felt terribly ___.", "opts": ["cramped", "spacious", "airy", "cosy"], "a": 0, "note": "cramped = chật chội."}, {"topic": "Housing · Home", "stem": "Large windows and high ceilings make the living room feel bright and ___.", "opts": ["airy", "rough", "cramped", "furnished"], "a": 0, "note": "airy = thoáng đãng."}, {"topic": "Housing · Home", "stem": "Despite being small, the reading corner feels warm and ___.", "opts": ["cosy", "storey", "hazardous", "double"], "a": 0, "note": "cosy = ấm cúng."}, {"topic": "Housing · Home", "stem": "The bedroom has ___ wardrobes, which save floor space.", "opts": ["built-in", "built-up", "building", "fit-in"], "a": 0, "note": "built-in wardrobes = tủ âm/tủ lắp liền."}, {"topic": "Housing · Home", "stem": "In colder countries, ___ heating can warm the whole house from one system.", "opts": ["central", "centre", "centrally", "whole"], "a": 0, "note": "central heating = hệ thống sưởi trung tâm."}, {"topic": "Housing · Home", "stem": "The flat is quieter because the windows have ___.", "opts": ["double glazing", "double glassing", "central heating", "built-in worktops"], "a": 0, "note": "double glazing = kính hai lớp, giúp cách âm/cách nhiệt."}, {"topic": "Housing · Home", "stem": "A ___ kitchen already contains fixed cupboards, work surfaces and basic fittings.", "opts": ["fitted", "fit", "fitting", "furnishedly"], "a": 0, "note": "fitted kitchen = bếp được lắp đặt sẵn."}, {"topic": "Housing · Home", "stem": "After chopping the vegetables, she wiped down the kitchen ___.", "opts": ["worktop", "sink", "wastebin", "cupboard"], "a": 0, "note": "worktop = mặt bàn bếp dùng để sơ chế."}, {"topic": "Housing · Home", "stem": "Dirty plates go into the ___ if you don't want to wash them by hand.", "opts": ["dishwasher", "wastebin", "cupboard", "sink tap"], "a": 0, "note": "dishwasher = máy rửa bát."}, {"topic": "Housing · Home", "stem": "Which item is the odd one out because it is mainly used for disposing of rubbish?", "opts": ["cupboard", "worktop", "wastebin", "sink"], "a": 2, "note": "wastebin = thùng rác; các lựa chọn còn lại là khu vực/đồ dùng lưu trữ hoặc làm việc trong bếp."}, {"topic": "Education · Work", "stem": "Young children may attend a ___ before starting primary school.", "opts": ["nursery", "dissertation", "degree", "boarding school"], "a": 0, "note": "nursery = nhà trẻ; kindergarten = mẫu giáo."}, {"topic": "Education · Work", "stem": "At a ___ school, students live at the school during term time.", "opts": ["boarding", "nursery", "freelance", "self-employed"], "a": 0, "note": "boarding school = trường nội trú."}, {"topic": "Education · Work", "stem": "After completing the programme, she received a university ___.", "opts": ["degree", "dissertation", "application form", "revision"], "a": 0, "note": "degree = bằng đại học; dissertation = luận văn."}, {"topic": "Education · Work", "stem": "Her final-year ___ examined how social media affects language learning.", "opts": ["dissertation", "degree", "CV", "application"], "a": 0, "note": "dissertation = luận văn/luận án tốt nghiệp ở bậc học phù hợp."}, {"topic": "Education · Work", "stem": "She graduated ___ French before training as a teacher.", "opts": ["in", "from", "on", "at"], "a": 0, "note": "graduate in + field/subject = tốt nghiệp ngành gì."}, {"topic": "Education · Work", "stem": "Which verb naturally collocates with 'an exam' in the sense of doing it?", "opts": ["sit", "make", "play", "perform"], "a": 0, "note": "sit/take an exam = dự/làm bài thi."}, {"topic": "Education · Work", "stem": "He passed the written test but ___ the practical one.", "opts": ["failed", "dismissed", "revised", "resigned"], "a": 0, "note": "pass ↔ fail."}, {"topic": "Education · Work", "stem": "I need to ___ all six units before Friday's test.", "opts": ["revise", "repeat", "resign", "apply"], "a": 0, "note": "revise = ôn tập."}, {"topic": "Education · Work", "stem": "Because she did not meet the requirements, she had to ___ a year.", "opts": ["repeat", "revise", "sit", "graduate"], "a": 0, "note": "repeat a year = học lại một năm."}, {"topic": "Education · Work", "stem": "The employer asked every candidate to complete an online application ___.", "opts": ["form", "CV", "degree", "dissertation"], "a": 0, "note": "application form = đơn/mẫu đơn ứng tuyển."}, {"topic": "Education · Work", "stem": "To ___ for the position, send your CV and a short cover letter.", "opts": ["apply", "hire", "dismiss", "graduate"], "a": 0, "note": "apply for a job/position."}, {"topic": "Education · Work", "stem": "The company plans to ___ two additional designers next month.", "opts": ["hire", "dismiss", "resign", "fail"], "a": 0, "note": "hire = tuyển dụng."}, {"topic": "Education · Work", "stem": "If an employee is formally removed from a job by the employer, they are ___.", "opts": ["dismissed", "resigned", "self-employed", "revised"], "a": 0, "note": "dismiss = sa thải. Resign = người lao động tự nghỉ."}, {"topic": "Education · Work", "stem": "After five years in the role, she decided to ___ and look for a new challenge.", "opts": ["resign", "dismiss", "hire", "graduate"], "a": 0, "note": "resign = từ chức/nghỉ việc theo quyết định của bản thân."}, {"topic": "Education · Work", "stem": "A graphic designer who works independently for several clients may be described as ___.", "opts": ["freelance", "unemployed", "boarding", "dismissed"], "a": 0, "note": "freelance = làm việc tự do theo dự án/khách hàng."}, {"topic": "Education · Work", "stem": "Someone who runs their own business rather than working for an employer is ___.", "opts": ["self-employed", "unemployed", "dismissed", "a graduate in work"], "a": 0, "note": "self-employed = tự kinh doanh/tự làm cho mình."}, {"topic": "Education · Work", "stem": "At the airport, a ___ officer may inspect luggage and imported goods.", "opts": ["customs", "interior", "accounting", "architecture"], "a": 0, "note": "customs officer = nhân viên hải quan."}, {"topic": "Food · Health", "stem": "For a salad, ___ the cucumber into thin round pieces rather than cutting it into tiny bits.", "opts": ["slice", "chop", "whisk", "grate"], "a": 0, "note": "slice = thái lát; chop = băm/chặt thành miếng nhỏ."}, {"topic": "Food · Health", "stem": "The recipe says to ___ the onion finely before frying it.", "opts": ["chop", "slice into rounds only", "whisk", "bake"], "a": 0, "note": "chop finely = băm/thái nhỏ."}, {"topic": "Food · Health", "stem": "Use the small holes on the tool to ___ the cheese over the pasta.", "opts": ["grate", "whisk", "roast", "slice up cream"], "a": 0, "note": "grate = bào."}, {"topic": "Food · Health", "stem": "You need to ___ the eggs vigorously until the mixture becomes light and foamy.", "opts": ["whisk", "grate", "grill", "chop"], "a": 0, "note": "whisk = đánh trứng/kem."}, {"topic": "Food · Health", "stem": "A whole chicken is commonly ___ in the oven, while bread is usually baked.", "opts": ["roasted", "whisked", "grated", "sliced"], "a": 0, "note": "roast = quay/nướng nguyên khối, thường dùng với thịt."}, {"topic": "Food · Health", "stem": "Which cooking method is most closely associated with direct heat from above or below on a grill?", "opts": ["grill", "whisk", "grate", "chop"], "a": 0, "note": "grill = nướng vỉ/nướng trực tiếp."}, {"topic": "Food · Health", "stem": "A ___ avoids meat and fish but may still eat dairy products and eggs.", "opts": ["vegetarian", "vegan", "carnivore", "grater"], "a": 0, "note": "vegetarian ≠ vegan. Vegan tránh toàn bộ sản phẩm có nguồn gốc động vật."}, {"topic": "Food · Health", "stem": "A strict ___ diet excludes meat, fish, dairy products and eggs.", "opts": ["vegan", "vegetarian", "roasted", "prescription"], "a": 0, "note": "vegan = thuần chay."}, {"topic": "Food · Health", "stem": "He missed the match because of a knee ___.", "opts": ["injury", "illness", "prescription", "dose"], "a": 0, "note": "injury = chấn thương; illness = bệnh tật."}, {"topic": "Food · Health", "stem": "Flu is an ___, not an injury.", "opts": ["illness", "injury", "addiction", "prescription"], "a": 0, "note": "illness = bệnh."}, {"topic": "Food · Health", "stem": "The pharmacist could not provide the medicine without a doctor's ___.", "opts": ["prescription", "injury", "benefit", "recovery over"], "a": 0, "note": "prescription = đơn thuốc."}, {"topic": "Food · Health", "stem": "It took her nearly two weeks to get ___ the virus completely.", "opts": ["over", "out", "through with", "off"], "a": 0, "note": "get over an illness = hồi phục sau bệnh."}, {"topic": "Food · Health", "stem": "The room was so hot and crowded that one guest suddenly passed ___.", "opts": ["out", "over", "away from", "up"], "a": 0, "note": "pass out = ngất xỉu."}, {"topic": "Food · Health", "stem": "Some people become addicted ___ checking their phones every few minutes.", "opts": ["to", "with", "for", "on"], "a": 0, "note": "be addicted to + noun/V-ing."}, {"topic": "Food · Health", "stem": "Regular exercise can help older adults benefit ___ improved strength and balance.", "opts": ["from", "of", "with", "to"], "a": 0, "note": "benefit from = hưởng lợi từ."}, {"topic": "Food · Health", "stem": "Which sentence uses the source vocabulary most naturally?", "opts": ["She got over the illness after resting for several days.", "She passed out the illness after resting.", "She benefited the illness from resting.", "She prescribed over the illness."], "a": 0, "note": "get over an illness = khỏi/hồi phục sau bệnh."}, {"topic": "Environment · Weather", "stem": "A prolonged period of unusually hot weather is called a ___.", "opts": ["heatwave", "drought", "thunder", "eruption"], "a": 0, "note": "heatwave = đợt nắng nóng kéo dài."}, {"topic": "Environment · Weather", "stem": "Months with almost no rain can lead to a severe ___.", "opts": ["drought", "heatwave", "forecast", "thunder"], "a": 0, "note": "drought = hạn hán."}, {"topic": "Environment · Weather", "stem": "A species that no longer exists anywhere is ___.", "opts": ["extinct", "endangered", "hazardous", "preserved"], "a": 0, "note": "extinct = đã tuyệt chủng."}, {"topic": "Environment · Weather", "stem": "An ___ species still exists but faces a high risk of extinction.", "opts": ["endangered", "extinct", "recycled", "rough"], "a": 0, "note": "endangered species = loài nguy cấp."}, {"topic": "Environment · Weather", "stem": "Glass bottles can often be ___ instead of being thrown away.", "opts": ["recycled", "preserved", "escaped", "erupted"], "a": 0, "note": "recycle = tái chế vật liệu."}, {"topic": "Environment · Weather", "stem": "National parks help ___ habitats and wildlife for future generations.", "opts": ["preserve", "recycle", "blow up", "put out"], "a": 0, "note": "preserve = bảo tồn."}, {"topic": "Environment · Weather", "stem": "Ash and lava are typical consequences of a volcanic ___.", "opts": ["eruption", "increase", "heatwave", "reclaim"], "a": 0, "note": "volcanic eruption = núi lửa phun trào."}, {"topic": "Environment · Weather", "stem": "The old gas tank could ___ if exposed to extreme heat.", "opts": ["blow up", "clear up", "put out", "build up"], "a": 0, "note": "blow up = phát nổ."}, {"topic": "Environment · Weather", "stem": "The sky should ___ later this afternoon, according to the forecast.", "opts": ["clear up", "put out", "build up", "escape from"], "a": 0, "note": "clear up = trời quang/tạnh."}, {"topic": "Environment · Weather", "stem": "Fire crews managed to ___ the forest fire before it reached nearby homes.", "opts": ["put out", "blow up", "build up", "clear up"], "a": 0, "note": "put out a fire = dập tắt lửa."}, {"topic": "Environment · Weather", "stem": "Traffic pollution can ___ gradually in areas with little wind.", "opts": ["build up", "put out", "escape", "recycle"], "a": 0, "note": "build up = tích tụ/xây dựng dần."}, {"topic": "Environment · Weather", "stem": "Residents should be aware ___ the risks of leaving fires unattended.", "opts": ["of", "from", "to", "with"], "a": 0, "note": "be aware of = nhận thức được."}, {"topic": "Environment · Weather", "stem": "The hikers were afraid ___ being trapped by the storm.", "opts": ["of", "from", "to", "for"], "a": 0, "note": "be afraid of + noun/V-ing."}, {"topic": "Environment · Weather", "stem": "The animals managed to escape ___ the flooded area before the river rose further.", "opts": ["from", "of", "to", "with"], "a": 0, "note": "escape from = thoát khỏi."}, {"topic": "Environment · Weather", "stem": "New barriers were installed to prevent cars ___ entering the protected zone.", "opts": ["from", "of", "to", "with"], "a": 0, "note": "prevent sb/sth from + V-ing."}, {"topic": "Environment · Weather", "stem": "Scientists recorded a sharp increase ___ average summer temperatures.", "opts": ["in", "of", "to", "from"], "a": 0, "note": "an increase in + noun = sự gia tăng về..."}];
+const KEY = "aptis_vocab_100_b2plus_v1";
+const letters = ["A","B","C","D"];
+let state = { index:0, answers:{}, mode:"all", topic:"All" };
+
+try {
+  const saved = JSON.parse(localStorage.getItem(KEY));
+  if(saved && typeof saved.index==="number" && saved.answers) state = {...state,...saved};
+} catch(e) {}
+
+const $ = s => document.querySelector(s);
+const els = {
+  topicStrip:$("#topicStrip"), topicLabel:$("#topicLabel"), status:$("#statusLabel"),
+  qno:$("#qno"), stem:$("#stem"), options:$("#options"), feedback:$("#feedback"),
+  prev:$("#prevBtn"), next:$("#nextBtn"), skip:$("#skipBtn"), mistake:$("#mistakeBtn"),
+  progress:$("#progressBar"), scoreTop:$("#scoreTop"), bigCounter:$("#bigCounter"),
+  summary:$("#summary"), sumCorrect:$("#sumCorrect"), sumWrong:$("#sumWrong"),
+  sumSkipped:$("#sumSkipped"), sumRate:$("#sumRate")
+};
+
+function save(){ localStorage.setItem(KEY, JSON.stringify(state)); }
+
+function filteredIndices(){
+  return QUESTIONS.map((q,i)=>({q,i})).filter(x=>{
+    const topicOk = state.topic==="All" || x.q.topic===state.topic;
+    const mistakeOk = state.mode!=="mistakes" || (state.answers[x.i] && state.answers[x.i].choice !== x.q.a);
+    return topicOk && mistakeOk;
+  }).map(x=>x.i);
+}
+
+function stats(){
+  let correct=0, wrong=0, answered=0;
+  Object.entries(state.answers).forEach(([i,a])=>{
+    if(a.choice===null) return;
+    answered++;
+    if(a.choice===QUESTIONS[+i].a) correct++; else wrong++;
+  });
+  return {correct,wrong,answered,skipped:QUESTIONS.length-answered};
+}
+
+function renderTopics(){
+  const topics=["All",...new Set(QUESTIONS.map(q=>q.topic))];
+  els.topicStrip.innerHTML="";
+  topics.forEach(t=>{
+    const b=document.createElement("button");
+    b.className="topic-btn"+(state.topic===t?" active":"");
+    b.textContent=t==="All"?"All 100":t;
+    b.onclick=()=>{state.topic=t;state.mode="all";const arr=filteredIndices();state.index=arr[0]??0;save();render();};
+    els.topicStrip.appendChild(b);
+  });
+}
+
+function render(){
+  const arr=filteredIndices();
+  if(!arr.length){
+    state.mode="all";
+    const fallback=filteredIndices();
+    state.index=fallback[0]??0;
+    render();
+    return;
+  }
+  if(!arr.includes(state.index)) state.index=arr[0];
+
+  const q=QUESTIONS[state.index];
+  const a=state.answers[state.index];
+  const pos=arr.indexOf(state.index);
+
+  els.topicLabel.textContent=q.topic+(state.mode==="mistakes"?" · Mistake review":"");
+  els.qno.textContent=`Question ${String(state.index+1).padStart(2,"0")} · ${q.topic}`;
+  els.stem.innerHTML=q.stem.replace("___",'<span class="blank">___</span>');
+  els.options.innerHTML="";
+
+  q.opts.forEach((opt,oi)=>{
+    const b=document.createElement("button");
+    b.className="opt";
+    b.innerHTML=`<span class="letter">${letters[oi]}</span>${opt}`;
+    if(a && a.choice!==null){
+      b.disabled=true;
+      if(oi===q.a) b.classList.add("correct");
+      if(oi===a.choice && oi!==q.a) b.classList.add("wrong");
+    }
+    b.onclick=()=>answer(oi);
+    els.options.appendChild(b);
+  });
+
+  if(a && a.choice!==null){
+    const ok=a.choice===q.a;
+    els.status.textContent=ok?"Correct":"Trap caught";
+    els.status.style.color=ok?"var(--good)":"var(--bad)";
+    els.feedback.innerHTML=`<strong>${ok?"✓ Correct":"✕ Correct answer: "+letters[q.a]}</strong> · ${q.note}`;
+    els.feedback.classList.add("show");
+  } else {
+    els.status.textContent=a && a.skipped?"Skipped":"Not answered";
+    els.status.style.color="var(--muted)";
+    els.feedback.classList.remove("show");
+    els.feedback.innerHTML="";
+  }
+
+  els.prev.disabled=pos<=0;
+  els.next.textContent=pos===arr.length-1?"Finish / Summary":"Next →";
+  els.bigCounter.textContent=`${String(pos+1).padStart(2,"0")} / ${String(arr.length).padStart(2,"0")}`;
+
+  const s=stats();
+  els.progress.style.width=`${(s.answered/QUESTIONS.length)*100}%`;
+  els.scoreTop.textContent=`${s.correct} correct · ${s.answered} answered`;
+  els.sumCorrect.textContent=s.correct;
+  els.sumWrong.textContent=s.wrong;
+  els.sumSkipped.textContent=s.skipped;
+  els.sumRate.textContent=s.answered?Math.round((s.correct/s.answered)*100)+"%":"0%";
+  els.summary.classList.toggle("show", s.answered===QUESTIONS.length || (pos===arr.length-1 && state.mode==="mistakes"));
+
+  renderTopics();
+  save();
+}
+
+function answer(choice){
+  const q=QUESTIONS[state.index];
+  const existing=state.answers[state.index];
+  if(existing && existing.choice!==null) return;
+  state.answers[state.index]={choice,skipped:false};
+  render();
+}
+
+function move(dir){
+  const arr=filteredIndices();
+  const pos=arr.indexOf(state.index);
+  const nextPos=pos+dir;
+  if(nextPos>=0 && nextPos<arr.length){state.index=arr[nextPos];render();window.scrollTo({top:0,behavior:"smooth"});}
+  else if(dir>0) els.summary.classList.add("show");
+}
+
+els.prev.onclick=()=>move(-1);
+els.next.onclick=()=>move(1);
+els.skip.onclick=()=>{
+  if(!state.answers[state.index]) state.answers[state.index]={choice:null,skipped:true};
+  move(1); save();
+};
+els.mistake.onclick=()=>{
+  const mistakes=Object.entries(state.answers)
+    .filter(([i,a])=>a.choice!==null && a.choice!==QUESTIONS[+i].a)
+    .map(([i])=>+i);
+  if(!mistakes.length){alert("Chưa có câu sai để review.");return;}
+  state.topic="All"; state.mode="mistakes"; state.index=mistakes[0]; render();
+};
+
+document.addEventListener("keydown",e=>{
+  if(["INPUT","TEXTAREA"].includes(document.activeElement.tagName)) return;
+  if(["1","2","3","4"].includes(e.key)) answer(+e.key-1);
+  if(e.key==="ArrowRight") move(1);
+  if(e.key==="ArrowLeft") move(-1);
+});
+
+render();
+</script>
+</body>
+</html>
